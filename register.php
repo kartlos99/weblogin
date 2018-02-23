@@ -16,7 +16,7 @@ $myop->register('login.php');
 	<div style="width: 960px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto;">
 		<h3>რეგისტრაცია</h3>
 
-		<form action="/weblogin/register.php" method="post">
+		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<table>
 				<tr>
 					<td>Name</td>
@@ -34,7 +34,7 @@ $myop->register('login.php');
 					<td>Email</td>
 					<td><input type="text" name="email"></td>
 				</tr>
-				<input type="hidden" name="regdate" value="54545454">
+				<input type="hidden" name="regdate" value="<?php echo time(); ?>">
 				<tr>
 					<td></td>
 					<td><input type="submit" value="register"/></td>

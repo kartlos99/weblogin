@@ -44,7 +44,7 @@ if(!class_exists('Webop')){
 					
 					$url = str_replace('register.php', $redirect, $url);
 
-					header("Location: http://localhost/weblogin/login.php");
+					header("Location: $url?reg=true");
 					
 				}else{
 					die('ver xerxdeba registracia, chawera');
@@ -52,6 +52,56 @@ if(!class_exists('Webop')){
 					
 			}
 				
+		}
+
+
+		function login($redirect){
+			global $db_f;
+
+			if( !empty( $_POST )){
+				
+				$subname = $_POST['username'];
+				$subpass = $_POST['password'];
+
+				$link = mysqli_connect('localhost', 'root', '12312', 'test');
+				$table = 'users';
+
+				$sql = "SELECT * FROM $table WHERE username = '".$subname."'";
+
+				$results = $link->query($sql);
+				if(!$results){
+					die('aseti momxmarebeli ar arsebobs!');
+				}
+
+				$results = mysqli_fetch_assoc($results);
+
+				$stordate = $results['regdate'];
+				$storpass = $results['pass'];
+
+				$subpass = $db_f->hash_password($subpass);
+
+				if($subpass == $storpass){
+
+					$authnonce = md5('cookie-'.$subname);
+					$authID = hash_hmac('sha512', $subpass, $authnonce);
+
+					setcookie('k_user', $subname, 0, '', '', '', true);
+					setcookie('k_authID', $authID, 0, '', '', '', true);
+
+					$url = "http". ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+					
+					$url = str_replace('login.php', $redirect, $url);
+echo $url;
+					header("Location: $url?");
+				} else {
+					return 'invalid';
+				}
+
+
+			} else {
+					return 'empty';
+			}
+
 		}
 
 	}
