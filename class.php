@@ -20,7 +20,7 @@ if(!class_exists('Webop')){
 
 			//$referrer = $_SERVER['HTTP_REFERER'];
 
-			if( !empty( $_POST )){
+			if( !empty( $_POST['username'] ) && !empty( $_POST['password'] )){
 				
 				require_once('db.php');
 				$link = mysqli_connect('localhost', 'root', '12312', 'test');
@@ -44,7 +44,7 @@ if(!class_exists('Webop')){
 					
 					$url = str_replace('register.php', $redirect, $url);
 
-					header("Location: $url?reg=true");
+					header("Location: $url?action=regtrue");
 					
 				}else{
 					die('ver xerxdeba registracia, chawera');
@@ -91,17 +91,65 @@ if(!class_exists('Webop')){
 					$url = "http". ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 					
 					$url = str_replace('login.php', $redirect, $url);
-echo $url;
-					header("Location: $url?");
+	
+					header("Location: $url");
 				} else {
 					return 'invalid';
 				}
 
-
 			} else {
-					return 'empty';
+				return 'empty';
 			}
 
+		}
+
+
+		function logout(){
+			$user_out = setcookie('k_user', '', -3600, '', '', '', true);
+			$id_out = setcookie('k_authID', '', -3600, '', '', '', true);
+
+			if( $user_out == true && $id_out == true){
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function checklogin(){
+			global $db_f;
+
+			$username = $_COOKIE['k_user'];
+			$authID = $_COOKIE['k_authID'];
+
+			if( !empty($username)){
+				$table = 'users';
+				$link = mysqli_connect('localhost', 'root', '12312', 'test');
+				$sql = "SELECT * FROM $table WHERE username = '".$username."'";
+
+				$results = $link->query($sql);
+
+				if(!$results){
+					die('aseti momxmarebeli ar arsebobs!');
+				}
+
+				$results = mysqli_fetch_assoc($results);
+
+				$storpass = $results['pass'];
+
+				$authnonce = md5('cookie-'.$username);
+				$storpass = hash_hmac('sha512', $storpass, $authnonce);
+
+				if( $storpass == $authID ){
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				$url = "http". ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+				$redirect = str_replace('index.php', 'login.php', $url);
+				header("Location: $redirect?action=login");
+				exit;
+			}
 		}
 
 	}

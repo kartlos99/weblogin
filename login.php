@@ -1,26 +1,34 @@
 <?php
 require_once('load.php');
-$act = $_GET["action"];
-if( $act == 'logout'){
+
+if( $_GET["action"] == 'logout'){
 	$loggedout = $myop->logout();
 }
 
 $logged = $myop->login('index.php');
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>login</title>
-		<style type="text/css">
-		body { background : #c7c7c7 }
-	</style>
+	<title>login</title>		
+	<link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
 
 <div style="width: 960px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto;">
 	<h3>login page</h3>
+	<p>
+		<?php 
+			if ($logged == 'invalid') { echo "araswori paroli!";}
+			
+			if ($_GET["action"] == 'login') {echo "gaiaret avtorizacia!";} else {
+				if ($logged == 'empty') { echo "sheavseT velebi!";}	
+			}
+		?>
+	</p>
 
-		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<form action="<?php echo $_SERVER['PHP_SELF']."?action=none"; ?>" method="post">
 			<table>
 				
 				<tr>
@@ -39,7 +47,7 @@ $logged = $myop->login('index.php');
 			</table>
 			
 		</form>
-		<p>arsebuli momxmareblistvis <a href="login.php">login</a></p>
+		<p>registracia <a href="register.php">aq!</a></p>
 
 </body>
 </html>

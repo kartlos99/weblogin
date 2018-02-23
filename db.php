@@ -49,7 +49,7 @@ if(!class_exists('Dbfunc')){
 			if ($result == TRUE){
 				return TRUE;
 			}else{
-				die('Error: INSINS '.mysqli_error());
+				die('Error: INSINS '.mysqli_error($linki));
 			}
 		}
 

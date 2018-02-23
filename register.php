@@ -7,9 +7,7 @@ $myop->register('login.php');
 <html>
 <head>
 	<title>registration</title>
-	<style type="text/css">
-		body { background : #c7c7c7 }
-	</style>
+	<link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
 
@@ -42,7 +40,7 @@ $myop->register('login.php');
 			</table>
 			
 		</form>
-		<p>arsebuli momxmareblistvis <a href="login.php">login</a></p>
+		<p>arsebuli momxmareblistvis <a href="login.php?action=fromreg">login</a></p>
 	</div>
 </body>
 </html>
