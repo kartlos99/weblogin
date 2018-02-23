@@ -1,0 +1,23 @@
+body {
+	background: #dde;
+}
+
+h2 {
+	background: #678;
+	padding: 5px;
+	margin: 10px, 50px, 0px, 0px ;
+	text-align: center;
+}
+
+.rigthtext {
+	text-align: right;
+	background: #aa9;
+}
+
+p {
+	background: #edd;
+	border-radius: 5px;
+	padding: 15px;
+	font-size: 24px;
+	text-align: right;
+}
